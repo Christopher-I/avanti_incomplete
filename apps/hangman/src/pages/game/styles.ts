@@ -15,6 +15,16 @@ export const StyledGameBackground = styled.div<Background>`
   top: 0;
   width: 100vw;
   z-index: -1;
+  background-color: ${({ status }) => {
+    switch (status) {
+      case 'playing':
+        return 'white'
+      case 'won':
+        return 'green'
+      case 'lost':
+        return 'red'
+    }
+  }};
 `
 
 export const StyledGameWrapper = styled.div<Background>`

@@ -11,6 +11,7 @@ import {
   StyledNewGameButton,
 } from './styles'
 import { useDispatch, useSelector } from '@packages/sdk'
+import Modal from '~/components/modal'
 
 export default function pageGame(): JSX.Element {
   const dispatch = useDispatch()
@@ -26,6 +27,7 @@ export default function pageGame(): JSX.Element {
       <HeartList />
       <CharacterBoard />
       <HighScore />
+      <ModalCopy />
       <StyledNewGameButton
         onClick={(e) => {
           e && e.preventDefault()
@@ -37,6 +39,18 @@ export default function pageGame(): JSX.Element {
         New Game
       </StyledNewGameButton>
     </StyledGameWrapper>
+  )
+}
+
+function ModalCopy() {
+  const status = useSelector(gameSelectors.status)
+  const score = useSelector(gameSelectors.score)
+  const showModal = status !== 'playing' && score > 2
+
+  return (
+    <>
+      <Modal show={showModal}></Modal>
+    </>
   )
 }
 

@@ -11,7 +11,7 @@ type Props = ReturnType<typeof mapStateToProps> &
 const mapStateToProps = (state) => ({ status: gameSelectors.status(state) })
 
 const mapDispatchToProps = (dispatch) => ({
-  makeGuess: (char: string) => null,
+  makeGuess: (char: string) => dispatch(gameActions.makeGuess(char)),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

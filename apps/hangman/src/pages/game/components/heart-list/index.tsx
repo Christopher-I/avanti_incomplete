@@ -12,7 +12,7 @@ export default function HeartList(): JSX.Element {
     <StyledHeartList>
       {hearts.map((heart, i) => {
         return (
-          <StyledHeartItem>
+          <StyledHeartItem key={i}>
             <Heart status={heart} />
           </StyledHeartItem>
         )
