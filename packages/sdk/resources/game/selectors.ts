@@ -4,6 +4,7 @@ export const game = (state) => state.game
 export const hearts = (state) => state.game.hearts
 export const heartsIndex = (state) => state.game.heartsIndex
 export const highscores = (state) => state.game.highscores
+export const highscoresLimit = (state) => state.game.highscoresLimit
 export const highscoresIndex = (state) => state.game.highscoresIndex
 export const numGuesses = (state) => state.game.numGuesses
 export const score = (state) => state.game.score
