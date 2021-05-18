@@ -9,6 +9,7 @@ function generateInitialState(): GameData {
     hearts: [],
     heartsIndex: '',
     highscores: [],
+    highscoresLimit: 10,
     highscoresIndex: '',
     numGuesses: 0,
     status: 'playing',
@@ -28,17 +29,18 @@ export default function gameReducer(
     case types.GUESS:
       const charFade = state.charFade
       let hearts = state.hearts
-      const numGuesses = state.numGuesses
+      let numGuesses = state.numGuesses
       let score = state.score
       let status = state.status
       const wordGuessed = state.wordGuessed
+      numGuesses++
 
       state.word.split('').forEach((char, i) => {
         // If the char guessed is a char in the word
         if (char == payload.charGuessed) {
+          !wordGuessed.includes(char) && score++
           charFade[i] = numGuesses
           wordGuessed[i] = char
-          score++ // Increment score for each instance correct guess
         } else {
           wordGuessed[i] = wordGuessed[i] || ''
         }
@@ -85,19 +87,22 @@ export default function gameReducer(
 
     case types.SET_HIGH_SCORE:
       const highscores = state.highscores
+      const highscoresLimit = state.highscoresLimit
       highscores.push({ score: state.score, username: payload.username || '' })
+      highscores.sort(function (a, b) {
+        return b.score - a.score
+      })
 
       return {
         ...state,
-        highscores: highscores.slice(0, 10), // Only show top ten scores
+        highscores: highscores.slice(0, highscoresLimit), // Only show top ten scores
         highscoresIndex: highscores.map(({ score }) => score).join(''),
       }
 
     case types.NEW:
       return {
         ...state,
-        highscores: state.highscores,
-        highscoresIndex: state.highscoresIndex,
+        ...payload,
       }
 
     case types.UPDATE:

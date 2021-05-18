@@ -13,7 +13,19 @@ function generateNewGameData(): Partial<GameData> {
   const word = words[index]
   const hearts = [1, 1, 1, 1, 1, 1, 1] // Get seven wrong guesses
 
-  return { hearts, word, wordLength: word.length }
+  return {
+    hearts,
+    word,
+    wordLength: word.length,
+    score: 0,
+    wordGuessed: [],
+    charFade: [],
+    charFadeIndex: '',
+    heartsIndex: '',
+    numGuesses: 0,
+    status: 'playing',
+    wordGuessedIndex: '',
+  }
 }
 
 export const getNewGame = () => (dispatch): void =>
@@ -28,8 +40,8 @@ export const makeGuess = (char: string) => (dispatch): void =>
     payload: { charGuessed: char },
   })
 
-export const setHighScore = () => (dispatch): void =>
+export const setHighScore = (username: string) => (dispatch): void =>
   dispatch({
     type: types.SET_HIGH_SCORE,
-    payload: {},
+    payload: { username: username },
   })
