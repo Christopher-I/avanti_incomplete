@@ -45,7 +45,12 @@ export default function pageGame(): JSX.Element {
 function ModalCopy() {
   const status = useSelector(gameSelectors.status)
   const score = useSelector(gameSelectors.score)
-  const showModal = status !== 'playing' && score > 2
+  const highscores = useSelector(gameSelectors.highscores)
+  const highscoresLimit = useSelector(gameSelectors.highscoresLimit)
+  const showModal =
+    status !== 'playing' &&
+    (score > highscores[highscoresLimit - 1]?.score ||
+      highscores.length < highscoresLimit) // check if score qualifies as a high score
 
   return (
     <>
