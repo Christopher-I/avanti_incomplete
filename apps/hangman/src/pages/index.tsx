@@ -1,6 +1,12 @@
-import React from 'react'
-import Game from './game'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
-export default function pageIndex(): JSX.Element {
-  return <Game />
+export default function IndexPage(): JSX.Element {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.replace('/game')
+  }, [])
+
+  return null
 }

@@ -26,8 +26,9 @@ class KeyInputProvider extends PureComponent<Props> {
   }
 
   onKeyDown = ({ key }: KeyboardEvent): void => {
-    if (this.props.status == 'playing') {
-      this.props.makeGuess(key)
+    // Only accept single letters a-z (case insensitive)
+    if (this.props.status == 'playing' && /^[a-zA-Z]$/.test(key)) {
+      this.props.makeGuess(key.toLowerCase())
     }
   }
 

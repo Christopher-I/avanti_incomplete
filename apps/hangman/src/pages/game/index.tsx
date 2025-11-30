@@ -3,7 +3,7 @@ import * as gameActions from '@packages/sdk/resources/game/actions'
 import * as gameSelectors from '@packages/sdk/resources/game/selectors'
 import HeartList from './components/heart-list'
 import HighScore from './components/high-score'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Score from './components/score'
 import {
   StyledGameBackground,
@@ -13,12 +13,14 @@ import {
 import { useDispatch, useSelector } from '@packages/sdk'
 import Modal from '~/components/modal'
 
-export default function pageGame(): JSX.Element {
+export default function GamePage(): JSX.Element {
   const dispatch = useDispatch()
 
   // Get game data on game start
-  dispatch(gameActions.getNewGame())
-  dispatch(gameActions.getHighScores())
+  useEffect(() => {
+    dispatch(gameActions.getNewGame())
+    dispatch(gameActions.getHighScores())
+  }, [])
 
   return (
     <StyledGameWrapper>
