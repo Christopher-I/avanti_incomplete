@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from '@packages/sdk'
 import * as gameSelectors from '@packages/sdk/resources/game/selectors'
 import * as userSelectors from '@packages/sdk/resources/user/selectors'
 
+const STORAGE_KEY = 'hangman_username'
+
 const Modal: React.FunctionComponent<any> = ({
   onClose,
   show,
@@ -29,6 +31,14 @@ const Modal: React.FunctionComponent<any> = ({
   const [username, setUsername] = useState('')
   const score = useSelector(gameSelectors.score)
   const dispatch = useDispatch()
+
+  // Load saved username from localStorage on mount
+  useEffect(() => {
+    const savedUsername = localStorage.getItem(STORAGE_KEY)
+    if (savedUsername) {
+      setUsername(savedUsername)
+    }
+  }, [])
 
   useEffect(() => {
     if (show !== undefined) {
@@ -45,6 +55,8 @@ const Modal: React.FunctionComponent<any> = ({
   }
 
   const onSubmitHighScore = (e) => {
+    // Save username for future games
+    localStorage.setItem(STORAGE_KEY, username)
     dispatch(gameActions.setHighScore(username))
     setOpen(false)
   }

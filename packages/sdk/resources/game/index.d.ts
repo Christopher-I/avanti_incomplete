@@ -4,6 +4,7 @@ export interface GameData {
   charFade: number[]
   charFadeIndex: string // This is necessary so Redux knows the fade number(s) have been updated
   charGuessed?: string
+  guessedLetters: string[] // Track all letters that have been guessed to prevent duplicates
   hearts: number[]
   heartsIndex: string // This is necessary so Redux knows the fade number(s) have been updated
   highscores: HighScore[]

@@ -39,20 +39,17 @@ class CustomDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="theme-color" content="#fff" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Oswald:wght@400;500&display=swap"
+            rel="stylesheet"
+          />
           <Reset />
         </Head>
         <body>
           <Main />
           <NextScript />
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
-            rel="stylesheet"
-          />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap"
-            rel="stylesheet"
-          ></link>
         </body>
       </Html>
     )

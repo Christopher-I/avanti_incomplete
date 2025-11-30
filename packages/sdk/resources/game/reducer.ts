@@ -2,10 +2,23 @@ import { GameData } from '.'
 import { ReducerAction } from '@packages/sdk'
 import * as types from './types'
 
+const HIGH_SCORES_STORAGE_KEY = 'hangman_highscores'
+
+function saveHighScoresToStorage(highscores: { score: number; username: string }[]): void {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(HIGH_SCORES_STORAGE_KEY, JSON.stringify(highscores))
+    } catch (e) {
+      console.error('Failed to save high scores to localStorage', e)
+    }
+  }
+}
+
 function generateInitialState(): GameData {
   return {
     charFade: [],
     charFadeIndex: '',
+    guessedLetters: [],
     hearts: [],
     heartsIndex: '',
     highscores: [],
@@ -27,12 +40,18 @@ export default function gameReducer(
 ): GameData {
   switch (type) {
     case types.GUESS:
-      const charFade = state.charFade
-      let hearts = state.hearts
+      // Ignore duplicate guesses
+      if (state.guessedLetters.includes(payload.charGuessed)) {
+        return state
+      }
+
+      const charFade = [...state.charFade]
+      const guessedLetters = [...state.guessedLetters, payload.charGuessed]
+      let hearts = [...state.hearts]
       let numGuesses = state.numGuesses
       let score = state.score
       let status = state.status
-      const wordGuessed = state.wordGuessed
+      const wordGuessed = [...state.wordGuessed]
       numGuesses++
 
       state.word.split('').forEach((char, i) => {
@@ -76,6 +95,7 @@ export default function gameReducer(
         ...state,
         charFade,
         charFadeIndex: charFade.join(''),
+        guessedLetters,
         hearts,
         heartsIndex: hearts.join(''),
         numGuesses,
@@ -86,16 +106,20 @@ export default function gameReducer(
       }
 
     case types.SET_HIGH_SCORE:
-      const highscores = state.highscores
+      const highscores = [...state.highscores]
       const highscoresLimit = state.highscoresLimit
       highscores.push({ score: state.score, username: payload.username || '' })
       highscores.sort(function (a, b) {
         return b.score - a.score
       })
+      const topHighscores = highscores.slice(0, highscoresLimit)
+
+      // Save to localStorage
+      saveHighScoresToStorage(topHighscores)
 
       return {
         ...state,
-        highscores: highscores.slice(0, highscoresLimit), // Only show top ten scores
+        highscores: topHighscores,
         highscoresIndex: highscores.map(({ score }) => score).join(''),
       }
 
